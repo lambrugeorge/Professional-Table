@@ -7,10 +7,9 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 </head>
-<body>
-    
+<body class="dark-mode">
 <!-- Dark mode toggle-->
- <div class="theme-toggle" id="theme-toggle">Dark mode</div>
+ <div class="theme-toggle" id="theme-toggle" hidden>Dark mode</div>
 
 
 <div class="container">
@@ -23,7 +22,7 @@
      </div>
 
 
-<table id="data-table">
+<table id="data-table" hidden>
     <thead>
         <tr>
             <th class="name-column">Name <i class="fas fa-sort" id="icon-0"></i></th>
@@ -65,7 +64,7 @@
     </tbody>
 </table>
 <!-- Pagination-->
-<div class="pagination">
+<div class="pagination" hidden>
     <button type="button" id="prev-btn" title="Previous Page">
         <i class="fas fa-chevron-left"></i>
     </button>
