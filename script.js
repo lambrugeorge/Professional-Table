@@ -7,7 +7,8 @@ const nextBtn = document.getElementById('next-btn');
 const pageNumber = document.getElementById('page-number');
 
 let data = [];
-
+let currentPage = 1;
+const rowsPerPage = 10;
 // Fetch data from API
 
 async function fetchData() {
@@ -16,9 +17,10 @@ async function fetchData() {
         await new Promise(resolve => setTimeout(resolve, 1000));
         const response = await fetch('https://randomuser.me/api/?results=50');
         const json = await response.json();
-        const data = json.results;
+        data = json.results;
         console.log(data);
         displayTable(data);
+        updateButtons();
     } catch (error) {
         console.error('Error fetching data:', error);
     } finally {
@@ -32,7 +34,12 @@ async function fetchData() {
 // Display table data
 function displayTable(dataToDisplay) {
     tableBody.innerText = '';
-    dataToDisplay.forEach(user => {
+    const start = (currentPage -1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    console.log('start', start, 'end', end);
+    const paginatedItems = dataToDisplay.slice(start, end);
+
+    paginatedItems.forEach(user => {
         const row =
         `<tr>
                 <td data-label="Name">${user.name.first} ${user.name.last}</td>
@@ -43,6 +50,36 @@ function displayTable(dataToDisplay) {
         tableBody.insertAdjacentHTML('beforeend', row);
     });
 } 
+
+// Previous page
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        displayTable(data);
+        updateButtons();
+    } 
+}
+
+//Next page
+function nextPage() {
+    if (currentPage * rowsPerPage < data.length) {
+        currentPage++;
+        displayTable(data);
+        updateButtons();
+    }
+}
+
+
+// Update pagination buttons
+
+function updateButtons() {
+    pageNumber.innerText = currentPage;
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage * rowsPerPage >= data.length;
+}
+
+
+
 
 
 fetchData();
@@ -74,3 +111,5 @@ themeToggle.addEventListener('click', () => {
         localStorage.setItem('dark-mode', true); 
     }
 })
+
+
